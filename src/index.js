@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './css/style.css';
+
 class AppComponent extends React.Component {
 
   constructor(props) {
@@ -24,17 +26,17 @@ class AppComponent extends React.Component {
   render() {
     return (
       <div>
-        <h2>Login Form</h2>
+        <h2 style={{ color: 'red', fontSize: 24 }}>Login Form</h2>
         <label>Enter Email id: </label>
-        <input type="email" name="usernameData" onChange={this.handleInput.bind(this)}></input>
+        <input className="input-box" type="email" name="usernameData" onChange={this.handleInput.bind(this)}></input>
         <span>{this.state.usernameData}</span>
         <br></br>
         <label>Enter Password: </label>
-        <input type="password" name="passwordData" onChange={this.handleInput.bind(this)}></input>
+        <input className="input-box" type="password" name="passwordData" onChange={this.handleInput.bind(this)}></input>
         <span>{this.state.passwordData}</span>
         <br></br>
-        <button onClick={() => this.onLogin()}>Login</button>
-      </div>
+        <button id="button-wrapper" onClick={() => this.onLogin()}>Login</button>
+      </div >
     )
   }
 }
