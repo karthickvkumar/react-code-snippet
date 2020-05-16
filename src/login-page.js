@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -13,8 +14,8 @@ class LoginPage extends Component {
 
     onLogin() {
         this.setState({
-            invalidUsername: this.state.usernameData == '' ? true : false,
-            invalidPassword: this.state.passwordData == '' ? true : false
+            invalidUsername: this.state.usernameData === '' ? true : false,
+            invalidPassword: this.state.passwordData === '' ? true : false
         })
         // if (this.state.usernameData == '') {
         //   this.setState({
@@ -25,12 +26,37 @@ class LoginPage extends Component {
         //     invalidUsername: false
         //   })
         // }
+        const request = {
+            "name": this.state.usernameData,
+            "job": this.state.passwordData
+        }
+        console.log(request)
+        const apiURL = 'https://reqres.in/api/users';
+        axios.post(apiURL, request)
+            .then((response) => {
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
     }
 
     handleInput(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    listrUser() {
+        const apiURL = "https://reqres.in/api/users?page=2";
+        axios.get(apiURL)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     render() {
@@ -47,6 +73,7 @@ class LoginPage extends Component {
                 {this.state.invalidPassword && <span>Please enter the password</span>}
                 <br></br>
                 <button id="button-wrapper" onClick={() => this.onLogin()}>Login</button>
+                <button id="button-wrapper" onClick={() => this.listrUser()}>List User</button>
             </div >
         );
     }

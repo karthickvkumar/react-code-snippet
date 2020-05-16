@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LoginPage from './login-page';
-import { SingnUp } from './signup-page';
+// import { SingnUp } from './signup-page';
 
 import './css/style.css';
 
