@@ -8,7 +8,8 @@ class LoginPage extends Component {
             usernameData: '',
             passwordData: '',
             invalidUsername: false,
-            invalidPassword: false
+            invalidPassword: false,
+            userList: []
         }
     }
 
@@ -35,6 +36,7 @@ class LoginPage extends Component {
         axios.post(apiURL, request)
             .then((response) => {
                 console.log(response.data)
+
             })
             .catch((error) => {
                 console.error(error)
@@ -47,12 +49,33 @@ class LoginPage extends Component {
             [event.target.name]: event.target.value
         });
     }
+    listAllAPI() {
+        const pageOneAPI = "https://reqres.in/api/users?page=1";
+        const pageTowAPI = "https://reqres.in/api/users?page=2";
+        const pageThreeAPI = "https://reqres.in/api/users?page=3";
+
+        const requestOne = axios.get(pageOneAPI);
+        const requestTwo = axios.get(pageTowAPI);
+        const requestThree = axios.get(pageThreeAPI);
+
+        axios.all([requestOne, requestTwo, requestThree])
+            .then(axios.spread((...responses) => {
+                console.log(responses)
+                const responseOne = responses[0]
+                const responseTwo = responses[1]
+                const responesThree = responses[2]
+            })).catch(errors => {
+                console.error(errors)
+            })
+    }
 
     listrUser() {
         const apiURL = "https://reqres.in/api/users?page=2";
         axios.get(apiURL)
             .then((response) => {
-                console.log(response)
+                this.setState({
+                    userList: response.data.data
+                })
             })
             .catch((error) => {
                 console.error(error)
@@ -61,6 +84,27 @@ class LoginPage extends Component {
 
     render() {
         const headerStyle = { color: 'black', fontSize: 24 };
+
+        const users = this.state.userList.map((value, index) => {
+            return (
+                <tr key={index}>
+                    <td>{value.first_name}</td>
+                    <td>{value.last_name}</td>
+                    <td>{value.email}</td>
+                    <td><img src={value.avatar} alt={value.first_name}></img></td>
+                </tr>
+            )
+        })
+
+
+        const noRecord = () => {
+            return (
+                <tr>
+                    <td colSpan="4"> No Record Found</td>
+                </tr>
+            )
+        }
+
         return (
             <div>
                 <h2 style={headerStyle}>Login Form</h2>
@@ -74,6 +118,20 @@ class LoginPage extends Component {
                 <br></br>
                 <button id="button-wrapper" onClick={() => this.onLogin()}>Login</button>
                 <button id="button-wrapper" onClick={() => this.listrUser()}>List User</button>
+                <br></br>
+                <table id="customers">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Display Picture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.userList.length == 0 ? noRecord() : users}
+                    </tbody>
+                </table>
             </div >
         );
     }
