@@ -9,6 +9,7 @@ class LoginPage extends Component {
             passwordData: '',
             invalidUsername: false,
             invalidPassword: false,
+            onEditForm: false,
             userList: []
         }
     }
@@ -70,7 +71,9 @@ class LoginPage extends Component {
     }
 
     listrUser() {
+        // const apiURL = "https://shop143.herokuapp.com/api/products";
         const apiURL = "https://reqres.in/api/users?page=2";
+
         axios.get(apiURL)
             .then((response) => {
                 this.setState({
@@ -82,16 +85,52 @@ class LoginPage extends Component {
             })
     }
 
+    onDeleteUser(employee, index) {
+        const empID = employee.id;
+        const deleteAPI = "https://reqres.in/api/users/" + empID;
+        axios.delete(deleteAPI)
+            .then((response) => {
+                this.state.userList.splice(index, 1);
+                this.setState({
+                    userList: this.state.userList
+                })
+            })
+            .catch((error) => {
+
+            })
+    }
+
+    handleInput(value, event) {
+        value[event.target.name] = event.target.value;
+        this.setState({
+            userList: this.state.userList
+        })
+    }
+
+    onEdit() {
+        this.setState({
+            onEditForm: !this.state.onEditForm
+        })
+    }
+
     render() {
         const headerStyle = { color: 'black', fontSize: 24 };
 
         const users = this.state.userList.map((value, index) => {
             return (
                 <tr key={index}>
-                    <td>{value.first_name}</td>
+                    <td>
+                        {!this.state.onEditForm && <span>{value.first_name}</span>}
+                        {this.state.onEditForm && <input type="text" value={value.first_name} name="first_name" onChange={this.handleInput.bind(this, value)}></input>}
+                    </td>
                     <td>{value.last_name}</td>
                     <td>{value.email}</td>
-                    <td><img src={value.avatar} alt={value.first_name}></img></td>
+                    <td><img className="icon" src={value.avatar} alt={value.first_name}></img></td>
+                    <td>
+                        <button onClick={() => this.onEdit()}>{!this.state.onEditForm ? 'Edit' : 'Save'}</button>
+                        <br></br>
+                        <button onClick={() => this.onDeleteUser(value, index)}>Delete</button>
+                    </td>
                 </tr>
             )
         })
@@ -125,7 +164,8 @@ class LoginPage extends Component {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
-                            <th>Display Picture</th>
+                            <th>Picture</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
