@@ -34,3 +34,10 @@
   width: 50px;
     border-radius: 15px;
 }
+
+.btn-link{
+    padding: 5px 15px 5px 15px;
+    background-color: green;
+    color: white;
+    font-size: 14px;
+}

@@ -19,15 +19,7 @@ class LoginPage extends Component {
             invalidUsername: this.state.usernameData === '' ? true : false,
             invalidPassword: this.state.passwordData === '' ? true : false
         })
-        // if (this.state.usernameData == '') {
-        //   this.setState({
-        //     invalidUsername: true
-        //   })
-        // } else {
-        //   this.setState({
-        //     invalidUsername: false
-        //   })
-        // }
+
         const request = {
             "name": this.state.usernameData,
             "job": this.state.passwordData
@@ -36,7 +28,7 @@ class LoginPage extends Component {
         const apiURL = 'https://reqres.in/api/users';
         axios.post(apiURL, request)
             .then((response) => {
-                console.log(response.data)
+                this.props.history.push('/signup')
 
             })
             .catch((error) => {
@@ -100,12 +92,12 @@ class LoginPage extends Component {
             })
     }
 
-    handleInput(value, event) {
-        value[event.target.name] = event.target.value;
-        this.setState({
-            userList: this.state.userList
-        })
-    }
+    // handleInput(value, event) {
+    //     value[event.target.name] = event.target.value;
+    //     this.setState({
+    //         userList: this.state.userList
+    //     })
+    // }
 
     onEdit() {
         this.setState({
