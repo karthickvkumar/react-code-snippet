@@ -11,7 +11,7 @@ class SingnUp extends Component {
                 <h2>Sign up Page!</h2>
                 <br></br>
                 <NavLink
-                    to="/"
+                    to="/hkvkvhk"
                     className="btn-link"
                 >Go to Login Page</NavLink>
 
