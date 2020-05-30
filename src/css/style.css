@@ -44,3 +44,11 @@
 .header-active-class{
     color: yellow
 }
+
+.error-msg{
+  color: red;
+}
+
+.error-input{
+  border: 2px solid red;
+}

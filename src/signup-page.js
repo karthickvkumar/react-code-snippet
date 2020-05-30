@@ -9,18 +9,52 @@ class SingnUp extends Component {
             last_name: '',
             email_address: '',
             gender: '',
+            hobbies: [],
             street_name: '',
             city: '',
-            state_name: ''
+            state_name: '',
+            first_name_error: false,
+            last_name_error: false
         }
     }
     goBack() {
         this.props.history.push('/')
     }
     handleDate(event) {
+        if (this.state[event.target.name] instanceof Array) {
+            if (event.target.checked) {
+                this.state[event.target.name].push(event.target.value)
+            } else {
+                this.state[event.target.name].pop()
+            }
+            this.setState({
+                [event.target.name]: this.state[event.target.name]
+            })
+        } else {
+            this.setState({
+                [event.target.name]: event.target.value
+            })
+        }
+    }
+
+    onBlured(event) {
+        console.log(event.target.name)
+        let key = event.target.name + '_error';
         this.setState({
-            [event.target.name]: event.target.value
+            [key]: event.target.value == '' ? true : false
         })
+    }
+
+    onFocused(event) {
+        console.log(event.target.name)
+        let key = event.target.name + '_error';
+        this.setState({
+            [key]: false
+        })
+    }
+
+    onFormSubmit() {
+        console.log(this.state)
     }
 
     render() {
@@ -68,10 +102,14 @@ class SingnUp extends Component {
             <div>
                 <h2>Sign up Page!</h2>
                 <label>Enter First Name</label>
-                <input type="text" name="first_name" onChange={this.handleDate} />
+                <input type="text" name="first_name" onChange={this.handleDate} onBlur={this.onBlured.bind(this)} onFocus={this.onFocused.bind(this)} className={this.state.first_name_error ? 'error-input' : ''} />
+                {this.state.first_name_error && <span className="error-msg">please enter your full name</span>}
                 <br></br>
                 <label>Enter Last Name</label>
-                <input type="text" name="last_name" id="Last-Name" onChange={this.handleDate} />
+                <input type="text" name="last_name" id="Last-Name" onChange={this.handleDate}
+                    onBlur={this.onBlured.bind(this)} onFocus={this.onFocused.bind(this)}
+                    className={this.state.last_name_error ? 'error-input' : ''} />
+                {this.state.last_name_error && <span className="error-msg">pleses enter your last name</span>}
                 <br></br>
                 <label>Enter Email Address</label>
                 <input type="text" name="email_address" id="Email-Address" onChange={this.handleDate} />
@@ -80,6 +118,11 @@ class SingnUp extends Component {
                 <input type="radio" name="gender" value="male" onChange={this.handleDate} />Male
                 <input type="radio" name="gender" value="female" onChange={this.handleDate} />Female
                 <input type="radio" name="gender" value="others" onChange={this.handleDate} />Others
+                <br></br>
+                <label>Prefered Hobbies</label>
+                <input type="checkbox" name='hobbies' value="cricket" onChange={this.handleDate} />Cricket
+                <input type="checkbox" name='hobbies' value="football" onChange={this.handleDate} />Foot Ball
+                <input type="checkbox" name='hobbies' value="hockey" onChange={this.handleDate} />Hockey
                 <br></br>
                 <label>Enter Street Name</label>
                 <input type="text" name="street_name" onChange={this.handleDate} />
@@ -96,7 +139,7 @@ class SingnUp extends Component {
                     {stateList}
                 </select>
                 <br></br>
-                <button>Sign Up</button>
+                <button onClick={() => this.onFormSubmit()}>Sign Up</button>
             </div>
         );
     }
