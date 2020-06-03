@@ -9,8 +9,8 @@ class LoginPage extends Component {
             passwordData: '',
             invalidUsername: false,
             invalidPassword: false,
-            onEditForm: false,
-            userList: []
+            userList: [],
+
         }
     }
 
@@ -92,16 +92,26 @@ class LoginPage extends Component {
             })
     }
 
-    // handleInput(value, event) {
-    //     value[event.target.name] = event.target.value;
-    //     this.setState({
-    //         userList: this.state.userList
-    //     })
-    // }
-
-    onEdit() {
+    onEditChange(value, event) {
+        value[event.target.name] = event.target.value;
         this.setState({
-            onEditForm: !this.state.onEditForm
+            userList: this.state.userList
+        })
+    }
+
+    onEdit(value) {
+        value.editable = true;
+        console.log(value)
+        this.setState({
+            userList: this.state.userList
+        })
+    }
+
+    onSave(value) {
+        value.editable = false;
+        console.log(value)
+        this.setState({
+            userList: this.state.userList
         })
     }
 
@@ -112,14 +122,15 @@ class LoginPage extends Component {
             return (
                 <tr key={index}>
                     <td>
-                        {!this.state.onEditForm && <span>{value.first_name}</span>}
-                        {this.state.onEditForm && <input type="text" value={value.first_name} name="first_name" onChange={this.handleInput.bind(this, value)}></input>}
+                        {!value.editable && <span>{value.first_name}</span>}
+                        {value.editable && <input type="text" value={value.first_name} name="first_name" onChange={this.onEditChange.bind(this, value)}></input>}
                     </td>
                     <td>{value.last_name}</td>
                     <td>{value.email}</td>
                     <td><img className="icon" src={value.avatar} alt={value.first_name}></img></td>
                     <td>
-                        <button onClick={() => this.onEdit()}>{!this.state.onEditForm ? 'Edit' : 'Save'}</button>
+                        {!value.editable && <button onClick={() => this.onEdit(value)}>Edit</button>}
+                        {value.editable && <button onClick={() => this.onSave(value)}>Save</button>}
                         <br></br>
                         <button onClick={() => this.onDeleteUser(value, index)}>Delete</button>
                     </td>
