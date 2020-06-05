@@ -16,6 +16,7 @@ class SingnUp extends Component {
             first_name_error: false,
             last_name_error: false,
             email_address_error: false,
+            email_format_error: false,
             gender_error: false,
             hobbies_error: false,
             street_name_error: false,
@@ -39,6 +40,7 @@ class SingnUp extends Component {
                 [key]: this.state[event.target.name].length == 0 ? true : false
             })
         } else {
+            console.log(event.target.name, event.target.value)
             this.setState({
                 [event.target.name]: event.target.value,
                 [key]: event.target.value == '' ? true : false
@@ -62,9 +64,15 @@ class SingnUp extends Component {
         })
     }
 
+    validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
     onFormSubmit() {
-        console.log(this.state)
+        console.log(this.validateEmail(this.state.email_address))
         this.setState({
+            email_format_error: !this.validateEmail(this.state.email_address),
             gender_error: this.state.gender == '' ? true : false,
             hobbies_error: this.state.hobbies.length == 0 ? true : false,
             city_error: this.state.city == '' ? true : false,
@@ -131,6 +139,7 @@ class SingnUp extends Component {
                     onBlur={this.onBlured.bind(this)} onFocus={this.onFocused.bind(this)}
                     className={this.state.email_address_error ? 'error-input' : ''} />
                 {this.state.email_address_error && <span className="error-msg">pleses enter your email</span>}
+                {this.state.email_format_error && <span className="error-msg">The given email is Invalid</span>}
                 <br></br>
                 <label>Select Gender</label>
                 <input type="radio" name="gender" value="male" onChange={this.handleDate} />Male
@@ -152,7 +161,7 @@ class SingnUp extends Component {
                 <br></br>
                 <label>Select your city</label>
                 <select onChange={this.handleDate} name='city'>
-                    <option>please select city</option>
+                    <option value="">please select city</option>
                     {citiesList}
                 </select>
                 {this.state.city_error && <span className="error-msg">pleses select your city</span>}
