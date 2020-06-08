@@ -52,3 +52,13 @@
 .error-input{
   border: 2px solid red;
 }
+
+.employee-wrapper{
+  width: 250px;
+  height: 100px;
+  background-color: #e2e2e2;
+    display: inline-block;
+    margin: 10px;
+
+
+}
