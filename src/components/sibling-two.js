@@ -5,7 +5,7 @@ class SiblingTwo extends Component {
         return (
             <div>
                 <h2>SiblingTwo</h2>
-
+                <span>The Entered Name is: {this.props.attrMessage}</span>
             </div>
         );
     }
