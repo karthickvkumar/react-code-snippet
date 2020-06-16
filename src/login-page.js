@@ -28,7 +28,7 @@ class LoginPage extends Component {
         const apiURL = 'https://reqres.in/api/users';
         axios.post(apiURL, request)
             .then((response) => {
-                this.props.history.push('/home');
+                this.props.history.push('/home', response.data);
 
             })
             .catch((error) => {

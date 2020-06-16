@@ -55,10 +55,12 @@
 
 .employee-wrapper{
   width: 250px;
-  height: 100px;
+  height: 160px;
   background-color: #e2e2e2;
     display: inline-block;
     margin: 10px;
-
-
+}
+.thumbnail{
+      width: 100px;
+    height: auto;
 }
