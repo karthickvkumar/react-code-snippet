@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 class SiblingTwo extends Component {
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+    }
     render() {
         return (
             <div>
